@@ -3,9 +3,11 @@ package ru.skillbranch.devintensive
 import org.junit.Test
 
 import org.junit.Assert.*
+import ru.skillbranch.devintensive.extensions.TimeUnits
 import ru.skillbranch.devintensive.extensions.add
 import ru.skillbranch.devintensive.extensions.format
-import ru.skillbranch.devintensive.models.User
+import ru.skillbranch.devintensive.extensions.toUserView
+import ru.skillbranch.devintensive.models.*
 import java.util.*
 
 /**
@@ -42,9 +44,13 @@ class ExampleUnitTest {
     @Test
     fun test_decomposition(){
         val user = User.makeUser("John Wick")
-        fun getUserInfo() = user
+        val user2 = User.makeUser(null)
+        val user3 = User.makeUser("")
+        val user4 = User.makeUser(" ")
+        val user5 = User.makeUser("John")
         val (id, firstName, lastName) = user
-        println("$id $firstName $lastName")
+        println(user.lastVisit?.format("HH:mm"))
+
     }
 
     @Test
@@ -57,7 +63,32 @@ class ExampleUnitTest {
     @Test
     fun test_date(){
         val user = User.makeUser("Vova Ivanov")
-        val user2 = user.copy(lastVisit = Date().add(2, "day"))
+        val user2 = user.copy(lastVisit = Date().add(2, TimeUnits.MINUTE))
         println(user2.lastVisit?.format() )
+    }
+
+    @Test
+    fun test_data_mapping(){
+        val user = User.makeUser("Donald Duck")
+        val userView = user.toUserView()
+        userView.printMe()
+    }
+
+    @Test
+    fun test_abstract_factory(){
+        val user = User.makeUser("Donald Duck")
+        val textMessage = BaseMessage.makeMessage(user, Chat("0"), payload = "any msg", type="text")
+        val imgMessage = BaseMessage.makeMessage(user, Chat("0"), payload = "any image", type="image")
+        when(imgMessage){
+            is TextMessage -> println("This is a text message")
+            is ImageMessage -> println("This is an image message")
+        }
+        println(textMessage.formatMessage())
+    }
+
+    @Test
+    fun test_toInitials(){
+        val user = User.makeUser("Donald Duck")
+        println(user.toUserView().initials)
     }
 }

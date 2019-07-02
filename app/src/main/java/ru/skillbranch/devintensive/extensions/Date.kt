@@ -2,9 +2,8 @@ package ru.skillbranch.devintensive.extensions
 
 import java.lang.IllegalStateException
 import java.util.*
-import java.util.regex.Pattern
 
-const val SECOND =  1000
+const val SECOND =  1000L
 const val MINUTE =  60 * SECOND
 const val HOUR =  60 * MINUTE
 const val DAY =  24 * HOUR
@@ -15,15 +14,25 @@ fun Date.format(pattern: String="HH:mm:ss dd.MM.yy") : String {
     return dateFormat.format(this)
 }
 
-fun Date.add(value: Int, units: String) : Date {
+fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND) : Date {
     var time = this.time
     time += when(units){
-        "second" -> value * SECOND
-        "minute" ->   value * MINUTE
-        "hour"  -> value * HOUR
-        "day"   -> value * DAY
-        else -> throw IllegalStateException("invalid unit")
+        TimeUnits.SECOND -> value * SECOND
+        TimeUnits.MINUTE ->   value * MINUTE
+        TimeUnits.HOUR  -> value * HOUR
+        TimeUnits.DAY   -> value * DAY
     }
     this.time = time
     return this
+}
+
+enum class TimeUnits{
+    SECOND,
+    MINUTE,
+    HOUR,
+    DAY
+}
+
+fun Date.humanizeDiff(date:Date = Date()) : String {
+TODO()
 }
