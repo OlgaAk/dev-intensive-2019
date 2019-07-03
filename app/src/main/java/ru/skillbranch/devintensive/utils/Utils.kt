@@ -37,12 +37,12 @@ object Utils {
     fun toInitials(firstName: String?, lastName: String?): String? {
         var firstLetter : Char? = firstName?.getOrNull(0)?.toUpperCase()
         var secondLetter : Char? = lastName?.getOrNull(0)?.toUpperCase()
-        if(firstName.isNullOrEmpty() && lastName.isNullOrEmpty()){
+        if(firstName.isNullOrBlank() && lastName.isNullOrBlank()){
             return null
         }
-        if(firstName.isNullOrEmpty() && !lastName.isNullOrEmpty()){
+        if(firstName.isNullOrBlank() && !lastName.isNullOrBlank()){
                 return  secondLetter.toString()
-            } else if (!firstName.isNullOrEmpty() && lastName.isNullOrEmpty()){
+            } else if (!firstName.isNullOrBlank() && lastName.isNullOrBlank()){
             return firstLetter.toString()
         }
 
