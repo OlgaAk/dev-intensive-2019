@@ -34,5 +34,24 @@ enum class TimeUnits{
 }
 
 fun Date.humanizeDiff(date:Date = Date()) : String {
-TODO()
+    var time = this.time
+    var timeNow = Date().time
+    var diff = timeNow - time
+    var firstInclinationNumbers = listOf<Long>(1L, 21L)
+    var secondInclinationNumbers = listOf<Long>(2L, 3L, 4L, 22L, 23L, 24L)
+    var string :String = when(diff) {
+        in 0..1*SECOND -> "только что"
+        in 1..45*SECOND  -> "несколько секунд назад"
+       in 45*SECOND..75*SECOND  -> "минуту назад"
+       in 75*SECOND..45*MINUTE  -> "${diff/ MINUTE} ${if(diff/ MINUTE  in firstInclinationNumbers) "минуту" else if(diff/ MINUTE in secondInclinationNumbers) "минуты" else "минут"} назад"
+       in 45*MINUTE..75*MINUTE  -> "час назад"
+       in 75*MINUTE..22* HOUR -> "${diff/ HOUR} ${if(diff/ HOUR in firstInclinationNumbers) "час" else if(diff/ HOUR in secondInclinationNumbers) "часа" else "часов"} назад"
+       in 22* HOUR..26* HOUR -> "день назад"
+       in 26* HOUR..360* DAY -> "${diff/ DAY} ${if(diff/DAY in firstInclinationNumbers) "день" else if(diff/DAY in secondInclinationNumbers) "дня" else "дней"} назад"
+       else -> "более года назад"
+    }
+    return string
 }
+
+
+

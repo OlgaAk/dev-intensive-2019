@@ -77,7 +77,7 @@ class ExampleUnitTest {
     @Test
     fun test_abstract_factory(){
         val user = User.makeUser("Donald Duck")
-        val textMessage = BaseMessage.makeMessage(user, Chat("0"), payload = "any msg", type="text")
+        val textMessage = BaseMessage.makeMessage(user, Chat("0"), payload = "any text message", type="text")
         val imgMessage = BaseMessage.makeMessage(user, Chat("0"), payload = "any image", type="image")
         when(imgMessage){
             is TextMessage -> println("This is a text message")
@@ -88,7 +88,11 @@ class ExampleUnitTest {
 
     @Test
     fun test_toInitials(){
-        val user = User.makeUser("Donald Duck")
-        println(user.toUserView().initials)
+        val user = User.makeUser("Вася")
+        val user2 = user.copy(lastVisit = Date().add(-23, TimeUnits.DAY))
+        val userview = user2.toUserView()
+        userview.printMe()
     }
+
+
 }
