@@ -89,10 +89,22 @@ class ExampleUnitTest {
     @Test
     fun test_toInitials(){
         val user = User.makeUser(" ")
-        val user2 = user.copy(lastVisit = Date().add(+3, TimeUnits.MINUTE))
+        val user2 = user.copy(lastVisit = Date().add(-2, TimeUnits.MINUTE))
         val userview = user2.toUserView()
         userview.printMe()
     }
 
+    @Test
+    fun test_builder(){
+        val user = User.Builder().id("a")
+            .firstName("john")
+            .lastName("doe")
+            .avatar("avatar")
+            .rating(1)
+            .respect(2)
+            .lastVisit(Date().add(-10, TimeUnits.MINUTE))
+            .isOnline(false)
+            .build()
+    }
 
 }

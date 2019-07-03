@@ -40,15 +40,17 @@ fun Date.humanizeDiff(date:Date = Date()) : String {
     var pastOrFutureWord : String = "назад"
     var firstInclinationNumbers = listOf<Long>(1L, 21L)
     var secondInclinationNumbers = listOf<Long>(2L, 3L, 4L, 22L, 23L, 24L)
-    var string :String = when(Math.abs(diff)) {
+    println("$diff,${Math.abs(diff)/ MINUTE}")
+    var positiveDiff : Long = Math.abs(diff)+5* SECOND
+    var string :String = when(positiveDiff) {
         in 0..1*SECOND -> "только что"
         in 1..45*SECOND  -> "${ if(diff<0) "через" else ""} несколько секунд ${ if(diff>0) "назад" else ""}"
        in 45*SECOND..75*SECOND  -> "${ if(diff<0) "через" else ""} минуту ${ if(diff>0) "назад" else ""}"
-       in 75*SECOND..45*MINUTE  -> "${ if(diff<0) "через" else ""} ${Math.abs(diff)/ MINUTE} ${if(Math.abs(diff)/ MINUTE  in firstInclinationNumbers) "минуту" else if(Math.abs(diff)/ MINUTE in secondInclinationNumbers) "минуты" else "минут"} ${ if(diff>0) "назад" else ""}"
-       in 45*MINUTE..75*MINUTE  -> "${ if(diff<0) "через" else ""} час ${ if(Math.abs(diff)>0) "назад" else ""}"
-       in 75*MINUTE..22* HOUR -> "${ if(diff<0) "через" else ""} ${Math.abs(diff)/ HOUR} ${if(Math.abs(diff)/ HOUR in firstInclinationNumbers) "час" else if(Math.abs(diff)/ HOUR in secondInclinationNumbers) "часа" else "часов"} ${ if(diff>0) "назад" else ""}"
+       in 75*SECOND..45*MINUTE  -> "${ if(diff<0) "через" else ""} ${positiveDiff/ MINUTE} ${if(positiveDiff/ MINUTE  in firstInclinationNumbers) "минуту" else if(positiveDiff/ MINUTE in secondInclinationNumbers) "минуты" else "минут"} ${ if(diff>0) "назад" else ""}"
+       in 45*MINUTE..75*MINUTE  -> "${ if(diff<0) "через" else ""} час ${ if(diff>0) "назад" else ""}"
+       in 75*MINUTE..22* HOUR -> "${ if(diff<0) "через" else ""} ${positiveDiff/ HOUR} ${if(positiveDiff/ HOUR in firstInclinationNumbers) "час" else if(positiveDiff/ HOUR in secondInclinationNumbers) "часа" else "часов"} ${ if(diff>0) "назад" else ""}"
        in 22* HOUR..26* HOUR -> "${ if(diff<0) "через" else ""} день ${ if(diff>0) "назад" else ""}"
-       in 26* HOUR..360* DAY -> "${ if(diff<0) "через" else ""} ${Math.abs(diff)/ DAY} ${if(Math.abs(diff)/DAY in firstInclinationNumbers) "день" else if(Math.abs(diff)/DAY in secondInclinationNumbers) "дня" else "дней"} ${ if(diff>0) "назад" else ""}"
+       in 26* HOUR..360* DAY -> "${ if(diff<0) "через" else ""} ${positiveDiff/ DAY} ${if(positiveDiff/DAY in firstInclinationNumbers) "день" else if(positiveDiff/DAY in secondInclinationNumbers) "дня" else "дней"} ${ if(diff>0) "назад" else ""}"
        else -> "${if(diff<0) "более чем через год" else "более года назад"}"
     }
     return string
