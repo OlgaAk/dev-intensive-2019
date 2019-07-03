@@ -3,10 +3,7 @@ package ru.skillbranch.devintensive
 import org.junit.Test
 
 import org.junit.Assert.*
-import ru.skillbranch.devintensive.extensions.TimeUnits
-import ru.skillbranch.devintensive.extensions.add
-import ru.skillbranch.devintensive.extensions.format
-import ru.skillbranch.devintensive.extensions.toUserView
+import ru.skillbranch.devintensive.extensions.*
 import ru.skillbranch.devintensive.models.*
 import java.util.*
 
@@ -65,6 +62,16 @@ class ExampleUnitTest {
         val user = User.makeUser("Vova Ivanov")
         val user2 = user.copy(lastVisit = Date().add(2, TimeUnits.MINUTE))
         println(user2.lastVisit?.format() )
+        Date().add(-2, TimeUnits.HOUR).humanizeDiff() //2 часа назад
+        Date().add(-5, TimeUnits.DAY).humanizeDiff() //5 дней назад
+        Date().add(2, TimeUnits.MINUTE).humanizeDiff() //через 2 минуты
+        Date().add(7, TimeUnits.DAY).humanizeDiff() //через 7 дней
+        Date().add(-400, TimeUnits.DAY).humanizeDiff() //более года назад
+        Date().add(400, TimeUnits.DAY).humanizeDiff() //более чем через год
+        Date().add(-1, TimeUnits.SECOND).humanizeDiff()
+        Date().add(1, TimeUnits.SECOND).humanizeDiff()
+        Date().add(-2, TimeUnits.SECOND).humanizeDiff()
+        Date().add(2, TimeUnits.SECOND).humanizeDiff()
     }
 
     @Test
@@ -89,7 +96,7 @@ class ExampleUnitTest {
     @Test
     fun test_toInitials(){
         val user = User.makeUser(" ")
-        val user2 = user.copy(lastVisit = Date().add(-2, TimeUnits.MINUTE))
+        val user2 = user.copy(lastVisit = Date().add(12, TimeUnits.SECOND))
         val userview = user2.toUserView()
         userview.printMe()
     }
@@ -106,5 +113,7 @@ class ExampleUnitTest {
             .isOnline(false)
             .build()
     }
+
+
 
 }
