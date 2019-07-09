@@ -114,6 +114,26 @@ class ExampleUnitTest {
             .build()
     }
 
+    @Test
+    fun test_plural(){
+        println(TimeUnits.SECOND.plural(311)) //1 секунду
+        println(TimeUnits.MINUTE.plural(4)) //4 минуты
+        println(TimeUnits.HOUR.plural(19)) //19 часов
+        println(TimeUnits.DAY.plural(311)) //222 дня
+    }
 
+    @Test
+    fun test_truncate(){
+        var string = "A  "
+        println(string.truncate(3))
+        println("Bender Bending Rodriguez — дословно «Сгибальщик Сгибающий Родригес»".truncate()) //Bender Bending R...
+        println("Bender Bending Rodriguez — дословно «Сгибальщик Сгибающий Родригес»".truncate(15)) //Bender Bending...
+        println( "A     ".truncate(3)) //A
+    }
 
+    @Test
+    fun test_striphtml(){
+        println("<p class=\"title\">Образовательное IT-сообщество Skill Branch</p>".stripHtml()) //Образовательное IT-сообщество Skill Branch
+        println("<p>Образовательное       IT-сообщество Skill Branch</p>".stripHtml()) //Образовательное IT-сообщество Skill Branch
+    }
 }
