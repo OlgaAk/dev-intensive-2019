@@ -26,11 +26,47 @@ fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND) : Date {
     return this
 }
 
+fun declineHelper(number: Long, arr: Array<String>) : String{
+    var firstInclinationNumbers = listOf<Long>(1L)
+    var secondInclinationNumbers = listOf<Long>(2L, 3L, 4L)
+    if(number%10  in firstInclinationNumbers && number%100 != 11L){
+        return "$number ${arr.get(0)}"
+    } else if(number%10 in secondInclinationNumbers && number%10 != 12L) {
+        return "$number ${arr.get(1)}"
+    } else {
+        return "$number ${arr.get(2)}"
+    }
+}
+
 enum class TimeUnits{
-    SECOND,
-    MINUTE,
-    HOUR,
-    DAY
+    SECOND {
+        override fun plural(number: Long) : String{
+            var arr = arrayOf("секунду", "секунды", "секунд")
+            return declineHelper(number, arr)
+        }
+    },
+    MINUTE {
+        override fun plural(number: Long): String {
+            var arr = arrayOf("минуту", "минуты", "минут")
+            return declineHelper(number, arr)
+        }
+    },
+    HOUR {
+        override fun plural(number: Long): String {
+            var arr = arrayOf("час", "часа", "часов")
+            return declineHelper(number, arr)
+        }
+    },
+    DAY {
+        override fun plural(number: Long): String {
+            var arr = arrayOf("день", "дня", "дней")
+            return declineHelper(number, arr)
+        }
+    };
+
+    abstract fun plural(number: Long) : String
+
+
 }
 
 fun Date.humanizeDiff(date:Date = Date()) : String {
