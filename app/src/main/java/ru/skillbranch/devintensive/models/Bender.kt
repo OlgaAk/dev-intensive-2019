@@ -14,9 +14,12 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
 
     fun listenAnswer(answer: String): Pair<String, Triple<Int, Int, Int>> {
         return if(question.answers.contains((answer))) {
-            "Отлично, это правильный ответ!" to status.color
+            question = question.nextQuestion()
+            "Отлично, это правильный ответ!\n${question.question}" to status.color
         } else {
-            "Это неправильный ответ!" to status.color
+            status = status.nextStatus()
+            "Это неправильный ответ!\n" +
+                    "${question.question}" to status.color
         }
     }
 
@@ -24,7 +27,15 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         NORMAL(Triple(255,255, 255)),
         WARNING(Triple(255,120, 0)),
         DANGER(Triple(255,60, 60)),
-        CRITICAL(Triple(255,255, 0))
+        CRITICAL(Triple(255,255, 0));
+
+        fun nextStatus():Status{
+            return if(this.ordinal<values().lastIndex){
+                values()[this.ordinal+1]
+            } else {
+                values()[0]
+            }
+        }
     }
 
     enum class Question(val question: String, val answers: List<String>) {
@@ -33,6 +44,14 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         MATERIAL("Из чего я сделан?", listOf("", "metal", "iron", "wood")),
         BDAY("Когда меня создали?", listOf("2993")),
         SERIAL("Мой серийный номер?", listOf("2716057")),
-        IDLE("На этом все, вопросов больше нет", listOf())
+        IDLE("На этом все, вопросов больше нет", listOf());
+
+        fun nextQuestion():Question{
+            return if(this.ordinal<values().lastIndex){
+                values()[this.ordinal+1]
+            } else {
+               this
+            }
+        }
     }
 }
