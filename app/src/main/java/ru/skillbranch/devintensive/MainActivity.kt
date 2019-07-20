@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.extensions.hideKeyboard
+import ru.skillbranch.devintensive.extensions.isKeyboardOpen
 import ru.skillbranch.devintensive.models.Bender
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         benderImage.setColorFilter(Color.rgb(r,g,b), PorterDuff.Mode.MULTIPLY)
 
         textTxt.text = benderObj.askQuestion()
+
 
         et_message.setOnEditorActionListener { v, actionId, event ->
             return@setOnEditorActionListener when (actionId) {
@@ -77,7 +79,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         outState?.putString("STATUS",benderObj.status.name)
         outState?.putString("QUESTION",benderObj.question.name)
         Log.d("M_MainActivity", "onSaveInstanceState ${benderObj.status.name} ${benderObj.question.name}")
-
     }
     
 
