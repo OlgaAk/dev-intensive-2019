@@ -17,8 +17,12 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
 
     fun listenAnswer(answer: String): Pair<String, Triple<Int, Int, Int>> {
         return if(question.answers.contains((answer))) {
-            question = question.nextQuestion()
-            "Отлично - ты справился\n${question.question}" to status.color
+            if(question.validate(answer)) {
+                question = question.nextQuestion()
+                "Отлично - ты справился\n${question.question}" to status.color
+            }else {
+                "${question.validationMessage}\n${question.question}" to status.color
+            }
         } else {
             numberOfFalseAnswers++
             if(numberOfFalseAnswers == 3){
@@ -48,13 +52,42 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         }
     }
 
-    enum class Question(val question: String, val answers: List<String>) {
-        NAME("Как меня зовут?", listOf("бендер", "bender")),
-        PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")),
-        MATERIAL("Из чего я сделан?", listOf("", "metal", "iron", "wood")),
-        BDAY("Когда меня создали?", listOf("2993")),
-        SERIAL("Мой серийный номер?", listOf("2716057")),
-        IDLE("На этом все, вопросов больше нет", listOf());
+    enum class Question(val question: String, val answers: List<String>, val validationMessage : String) {
+        NAME("Как меня зовут?", listOf("бендер", "bender"), "Имя должно начинаться с заглавной буквы") {
+            override fun validate(answer: String): Boolean {
+                var regularexpr = Regex("[A-Z|А-Я]+.*")
+                return answer.matches(regularexpr)
+            }
+        },
+        PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender"), "Профессия должна начинаться со строчной буквы") {
+            override fun validate(answer: String): Boolean {
+                var regularexpr = Regex("[a-z|а-я]+.*")
+                return answer.matches(regularexpr)
+            }
+        },
+        MATERIAL("Из чего я сделан?", listOf("металл", "дерево", "metal", "iron", "wood"), "Материал не должен содержать цифр") {
+            override fun validate(answer: String): Boolean {
+                var regularexpr = Regex("^([^0-9]*)\$")
+                return answer.matches(regularexpr)
+            }
+        },
+        BDAY("Когда меня создали?", listOf("2993"), "Год моего рождения должен содержать только цифры") {
+            override fun validate(answer: String): Boolean {
+                var regularexpr = Regex("^([0-9]*)\$")
+                return answer.matches(regularexpr)
+            }
+        },
+        SERIAL("Мой серийный номер?", listOf("2716057"), "Серийный номер содержит только цифры, и их 7") {
+            override fun validate(answer: String): Boolean {
+                var regularexpr = Regex("^([0-9]{7})\$")
+                return answer.matches(regularexpr)
+            }
+        },
+        IDLE("На этом все, вопросов больше нет", listOf(), "") {
+            override fun validate(answer: String): Boolean {
+                return true
+            }
+        };
 
         fun nextQuestion():Question{
             return if(this.ordinal<values().lastIndex){
@@ -63,5 +96,6 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
                this
             }
         }
+        abstract fun validate(answer:String):Boolean
     }
 }
