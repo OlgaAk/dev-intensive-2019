@@ -136,4 +136,15 @@ class ExampleUnitTest {
         println("<p class=\"title\">Образовательное &quot; IT-сообщество Skill Branch</p>".stripHtml()) //Образовательное IT-сообщество Skill Branch
         println("<p>Образовательное       IT-сообщество Skill Branch</p>".stripHtml()) //Образовательное IT-сообщество Skill Branch
     }
+
+    @Test
+    fun test_validation(){
+        var bender = Bender()
+        var (phrase, color) = bender.listenAnswer("Bender")
+        println("$phrase $color")
+        assertEquals(phrase, "Отлично - ты справился\nНазови мою профессию?")
+        var (phrase2, color2) = bender.listenAnswer("сгибальщик")
+        println("$phrase2 $color2")
+        assertEquals(phrase2, "Отлично - ты справился\nИз чего я сделан?")
+    }
 }
