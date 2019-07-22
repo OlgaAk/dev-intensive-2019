@@ -149,5 +149,8 @@ class ExampleUnitTest {
         var (phrase2, color2) = bender.listenAnswer("сгибальщик")
         println("$phrase2 $color2")
         assertEquals(phrase2, "Отлично - ты справился\nИз чего я сделан?")
+        var (phrase3, color3) = bender.listenAnswer("metal1")
+        println("$phrase3 $color3")
+        assertEquals(phrase3, "Материал не должен содержать цифр\nИз чего я сделан?")
     }
 }

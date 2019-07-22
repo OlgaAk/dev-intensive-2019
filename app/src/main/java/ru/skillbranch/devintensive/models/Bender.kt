@@ -16,26 +16,28 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
 
 
     fun listenAnswer(answer: String): Pair<String, Triple<Int, Int, Int>> {
-        return if(question.answers.contains((answer.toLowerCase()))) {
-            if(question.validate(answer)) {
-                question = question.nextQuestion()
-                "Отлично - ты справился\n${question.question}" to status.color
-            }else {
+        return if (question.validate(answer)) {
+                    if (question.answers.contains((answer.toLowerCase()))) {
+                        question = question.nextQuestion()
+                        "Отлично - ты справился\n${question.question}" to status.color
+                    } else {
+                        numberOfFalseAnswers++
+                        if (numberOfFalseAnswers == 3) {
+                            status = Status.NORMAL
+                            question = Question.NAME
+                            numberOfFalseAnswers = 0
+                            "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
+                        } else {
+                            status = status.nextStatus()
+                            "Это неправильный ответ\n${question.question}" to status.color
+                        }
+                    }
+            } else {
                 "${question.validationMessage}\n${question.question}" to status.color
             }
-        } else {
-            numberOfFalseAnswers++
-            if(numberOfFalseAnswers == 3){
-                status = Status.NORMAL
-                question = Question.NAME
-                numberOfFalseAnswers = 0
-                "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
-            } else {
-                status = status.nextStatus()
-                "Это неправильный ответ\n${question.question}" to status.color
-            }
-        }
     }
+
+
 
     enum class Status(val color : Triple<Int, Int, Int>) {
         NORMAL(Triple(255,255, 255)),
