@@ -60,8 +60,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun sendMessage() : Unit{
-        println(this.isKeyboardOpen())
-        val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase())
+        val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
         messageEt.setText("")
         val (r,g,b) = color
         benderImage.setColorFilter(Color.rgb(r,g,b), PorterDuff.Mode.MULTIPLY)
@@ -77,7 +76,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        println("closed " + this.isKeyboardClosed())
         outState?.putString("STATUS",benderObj.status.name)
         outState?.putString("QUESTION",benderObj.question.name)
         Log.d("M_MainActivity", "onSaveInstanceState ${benderObj.status.name} ${benderObj.question.name}")

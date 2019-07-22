@@ -143,7 +143,7 @@ class ExampleUnitTest {
         var (phrase, color) = bender.listenAnswer("бендер")
         println("$phrase $color")
         assertEquals(phrase, "Имя должно начинаться с заглавной буквы\nКак меня зовут?")
-        var (phrase1, color1) = bender.listenAnswer("Бендер")
+        var (phrase1, color1) = bender.listenAnswer("Bender")
         println("$phrase1 $color1")
         assertEquals(phrase1, "Отлично - ты справился\nНазови мою профессию?")
         var (phrase2, color2) = bender.listenAnswer("сгибальщик")
