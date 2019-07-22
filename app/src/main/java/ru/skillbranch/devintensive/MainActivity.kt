@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.extensions.hideKeyboard
+import ru.skillbranch.devintensive.extensions.isKeyboardClosed
 import ru.skillbranch.devintensive.extensions.isKeyboardOpen
 import ru.skillbranch.devintensive.models.Bender
 
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun sendMessage() : Unit{
+        println(this.isKeyboardOpen())
         val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase())
         messageEt.setText("")
         val (r,g,b) = color
@@ -75,7 +77,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-
+        println("closed " + this.isKeyboardClosed())
         outState?.putString("STATUS",benderObj.status.name)
         outState?.putString("QUESTION",benderObj.question.name)
         Log.d("M_MainActivity", "onSaveInstanceState ${benderObj.status.name} ${benderObj.question.name}")

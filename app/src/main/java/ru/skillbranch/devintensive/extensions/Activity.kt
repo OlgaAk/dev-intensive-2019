@@ -29,7 +29,7 @@ fun calculateHeightDiff(activity: Activity):Int{
     val view = activity.currentFocus
     view?.getWindowVisibleDisplayFrame(r)
 
-    val screenHeight:Int? = view?.rootView?.getHeight()
+    val screenHeight:Int? = view?.rootView?.height
     if (screenHeight != null) {
         val heightDifference = screenHeight - (r.bottom - r.top)
         Log.d("M_Keyboard Size", "Size: $heightDifference $screenHeight $r")
@@ -40,11 +40,11 @@ fun calculateHeightDiff(activity: Activity):Int{
 }
 
 fun Activity.isKeyboardOpen():Boolean{
-        return calculateHeightDiff(this) > 0
+        return calculateHeightDiff(this) > 200
     }
 
 fun Activity.isKeyboardClosed():Boolean{
-    return calculateHeightDiff(this) < 0
+    return calculateHeightDiff(this) < 200
 }
 
 

@@ -140,9 +140,12 @@ class ExampleUnitTest {
     @Test
     fun test_validation(){
         var bender = Bender()
-        var (phrase, color) = bender.listenAnswer("Bender")
+        var (phrase, color) = bender.listenAnswer("бендер")
         println("$phrase $color")
-        assertEquals(phrase, "Отлично - ты справился\nНазови мою профессию?")
+        assertEquals(phrase, "Имя должно начинаться с заглавной буквы\nКак меня зовут?")
+        var (phrase1, color1) = bender.listenAnswer("Бендер")
+        println("$phrase1 $color1")
+        assertEquals(phrase1, "Отлично - ты справился\nНазови мою профессию?")
         var (phrase2, color2) = bender.listenAnswer("сгибальщик")
         println("$phrase2 $color2")
         assertEquals(phrase2, "Отлично - ты справился\nИз чего я сделан?")
