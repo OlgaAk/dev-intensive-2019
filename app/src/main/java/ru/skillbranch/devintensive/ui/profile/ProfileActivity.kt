@@ -12,16 +12,21 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.extensions.hideKeyboard
 import ru.skillbranch.devintensive.models.Bender
+import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 class ProfileActivity : AppCompatActivity() {
     companion object {
         const val IS_EDIT_MODE = "IS_EDIT_MODE"
     }
 
+    private lateinit var viewModel: ProfileViewModel
     var isEditMode = false
     lateinit var viewFields: Map<String, TextView>
 
@@ -29,6 +34,7 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         initViews(savedInstanceState)
+        initViewModel()
         Log.d("M_MainActivity", "onCreate")
 
     }
@@ -37,6 +43,19 @@ class ProfileActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         outState?.putBoolean(IS_EDIT_MODE, isEditMode)
+    }
+
+    private fun initViewModel(){
+        viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
+        viewModel.getProfileData().observe(this, Observer { updateUI(it) })
+    }
+
+    private fun updateUI(profile: Profile) {
+        profile.toMap().also{
+            for((k,v) in viewFields){
+                v.text = it[k].toString()
+            }
+        }
     }
 
     private fun initViews(savedInstanceState: Bundle?) {
@@ -54,6 +73,7 @@ class ProfileActivity : AppCompatActivity() {
         isEditMode = savedInstanceState?.getBoolean(IS_EDIT_MODE, false) ?: false
 
         btn_edit.setOnClickListener {
+            if(isEditMode) saveProfileInfo()
             isEditMode = !isEditMode
             showCurrentMode(isEditMode)
         }
@@ -90,6 +110,17 @@ class ProfileActivity : AppCompatActivity() {
             setImageDrawable(icon)
         }
 
+    }
+
+    private fun saveProfileInfo(){
+        Profile(
+            firstName = et_first_name.text.toString(),
+            lastName = et_last_name.text.toString(),
+            about = et_about.text.toString(),
+            repository = et_repository.text.toString()
+        ).apply {
+            viewModel.saveProfileData(this)
+        }
     }
 
 
