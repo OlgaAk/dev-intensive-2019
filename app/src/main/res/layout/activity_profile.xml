@@ -216,6 +216,7 @@
                 android:layout_height="@dimen/btn_round_size_40"
                 android:src="@drawable/ic_about"/>
         <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/wr_about"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing_normal_16">
@@ -256,7 +257,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing_normal_16"
-                android:layout_marginRight="@dimen/spacing_normal_16">
+                >
 
             <EditText
                     style="@style/Profile.EditText.Single"
@@ -273,7 +274,8 @@
                 android:layout_width="24dp"
                    android:layout_height="24dp"
                    android:src="@drawable/ic_eye_24dp"
-                   android:layout_gravity="center_vertical"/>
+                   android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/spacing_normal_16"/>
 
     </LinearLayout>
 </LinearLayout>
