@@ -30,13 +30,14 @@
         >
 
             <ImageButton
+                    android:id="@+id/btn_switch_theme"
                     android:layout_width="@dimen/btn_round_size_40"
                     android:layout_height="@dimen/btn_round_size_40"
                     android:layout_marginTop="36dp"
                     android:layout_marginRight="@dimen/spacing_huge_32"
                     android:layout_toLeftOf="@+id/iv_avatar"
                     android:background="@drawable/btn_round_bg"
-                    android:src="@drawable/ic_brightness_high_black_24dp"/>
+                    android:src="@drawable/ic_switch_day_night"/>
 
             <ImageView
                     android:id="@+id/iv_avatar"
@@ -81,7 +82,7 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_primary_light"
+            android:background="?attr/colorAccentedSurface"
             android:orientation="horizontal"
     >
 
@@ -153,7 +154,7 @@
             style="@style/Profile.InfoItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+    >
 
         <ImageView
                 android:id="@+id/ic_avatar"
@@ -201,14 +202,14 @@
 
     <View android:layout_width="match_parent" android:layout_height="1dp"
           android:layout_marginLeft="@dimen/space_maximum_72"
-          android:background="@color/color_divider_dark"
+          android:background="?attr/colorDivider"
     />
 
     <LinearLayout
             style="@style/Profile.InfoItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+            android:orientation="horizontal">
 
         <ImageView
                 android:id="@+id/ic_about"
@@ -237,7 +238,7 @@
 
     <View android:layout_width="match_parent" android:layout_height="1dp"
           android:layout_marginLeft="@dimen/space_maximum_72"
-          android:background="@color/color_divider_dark"
+          android:background="?attr/colorDivider"
     />
 
     <LinearLayout
@@ -257,7 +258,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing_normal_16"
-                >
+        >
 
             <EditText
                     style="@style/Profile.EditText.Single"
@@ -272,10 +273,10 @@
         <ImageView
                 android:id="@+id/ic_eye"
                 android:layout_width="24dp"
-                   android:layout_height="24dp"
-                   android:src="@drawable/ic_eye_24dp"
-                   android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/spacing_normal_16"/>
+                android:layout_height="24dp"
+                android:src="@drawable/ic_eye_24dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/spacing_normal_16"/>
 
     </LinearLayout>
 </LinearLayout>

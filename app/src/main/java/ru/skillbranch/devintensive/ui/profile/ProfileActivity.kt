@@ -43,6 +43,11 @@ class ProfileActivity : AppCompatActivity() {
     private fun initViewModel(){
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
         viewModel.getProfileData().observe(this, Observer { updateUI(it) })
+        viewModel.getTheme().observe(this, Observer { updateTheme(it) })
+    }
+
+    private fun updateTheme(mode: Int) {
+        delegate.setLocalNightMode(mode)
     }
 
     private fun updateUI(profile: Profile) {
@@ -72,6 +77,9 @@ class ProfileActivity : AppCompatActivity() {
             isEditMode = !isEditMode
             showCurrentMode(isEditMode)
         }
+        btn_switch_theme.setOnClickListener{
+            viewModel.switchTheme()
+        }
     }
 
     private fun showCurrentMode(isEdit: Boolean) {
@@ -97,9 +105,9 @@ class ProfileActivity : AppCompatActivity() {
                 null
             }
             val icon = if (isEdit) {
-                resources.getDrawable(R.drawable.ic_save_black_24dp)
+                resources.getDrawable(R.drawable.ic_save_black_24dp, theme)
             } else {
-                resources.getDrawable(R.drawable.ic_edit_black_24dp)
+                resources.getDrawable(R.drawable.ic_edit_black_24dp, theme)
             }
             background.colorFilter = filter
             setImageDrawable(icon)
