@@ -69,9 +69,11 @@ class ProfileActivity : AppCompatActivity() {
             "rating" to tv_rating,
             "respect" to tv_respect
         )!!
-
+        Log.d("M_MainActivity", "isEditMode before saved $isEditMode")
         isEditMode = savedInstanceState?.getBoolean(IS_EDIT_MODE, false) ?: false
-
+        Log.d("M_MainActivity", "isEditMode after saved $isEditMode")
+        showCurrentMode(isEditMode)
+        
         btn_edit.setOnClickListener {
             if(isEditMode) saveProfileInfo()
             isEditMode = !isEditMode
@@ -85,7 +87,6 @@ class ProfileActivity : AppCompatActivity() {
     private fun showCurrentMode(isEdit: Boolean) {
         val info = viewFields.filter { setOf("firstName", "lastName", "about", "repository").contains(it.key) }
         for ((_, v) in info) {
-            Log.d("M_MainActivity", "view $v")
             v as EditText
             v.isFocusable = isEdit
             v.isFocusableInTouchMode = isEdit
