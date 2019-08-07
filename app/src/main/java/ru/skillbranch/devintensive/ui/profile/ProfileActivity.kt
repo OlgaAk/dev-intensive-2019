@@ -73,7 +73,7 @@ class ProfileActivity : AppCompatActivity() {
         isEditMode = savedInstanceState?.getBoolean(IS_EDIT_MODE, false) ?: false
         Log.d("M_MainActivity", "isEditMode after saved $isEditMode")
         showCurrentMode(isEditMode)
-        
+
         btn_edit.setOnClickListener {
             if(isEditMode) saveProfileInfo()
             isEditMode = !isEditMode
