@@ -15,7 +15,7 @@ class CircleImageView @JvmOverloads constructor(
 {
     companion object{
         private const val DEFAULT_BORDER_COLOR = Color.WHITE
-        private const val DEFAULT_BORDER_WIDTH = "2dp"
+        private const val DEFAULT_BORDER_WIDTH = 2f
     }
 
     private var borderColor = DEFAULT_BORDER_COLOR
@@ -26,11 +26,13 @@ class CircleImageView @JvmOverloads constructor(
         if(attrs != null){
             val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView)
             borderColor = a.getColor(R.styleable.CircleImageView_cv_borderColor, DEFAULT_BORDER_COLOR)
+            borderWidth = a.getDimension(R.styleable.CircleImageView_cv_borderWidth, DEFAULT_BORDER_WIDTH)
             a.recycle()
         }
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+
+/*    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
         setBorderWidth(borderWidth)
@@ -38,8 +40,7 @@ class CircleImageView @JvmOverloads constructor(
         setBorderColor(borderColor)
 
 
-    }
-
+    }*/
 
 
 }
