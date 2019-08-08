@@ -1,7 +1,9 @@
 package ru.skillbranch.devintensive.ui.custom
 
 import android.content.Context
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.util.AttributeSet
 import android.widget.ImageView
 import androidx.annotation.Dimension
@@ -31,7 +33,14 @@ class CircleImageView @JvmOverloads constructor(
         }
     }
 
-
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
+        var paint = Paint()
+        paint.strokeWidth = borderWidth
+        paint.setColor(borderColor)
+        paint.style = Paint.Style.STROKE
+        canvas?.drawCircle(width/2f, height/2f, height/2f, paint)
+    }
 /*    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
