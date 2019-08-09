@@ -9,6 +9,9 @@ import android.util.Log
 import android.widget.ImageView
 import androidx.annotation.Dimension
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.utils.Utils
+
 
 class CircleImageView @JvmOverloads constructor(
     context: Context,
@@ -23,7 +26,7 @@ class CircleImageView @JvmOverloads constructor(
     private var borderColor = DEFAULT_BORDER_COLOR
     private var borderWidth = DEFAULT_BORDER_WIDTH
     private val paint = Paint()
-    private var hasInitials : Boolean= true
+    private var hasInitials: Boolean = true
 
     init {
         if (attrs != null) {
@@ -41,41 +44,41 @@ class CircleImageView @JvmOverloads constructor(
         paint.setColor(borderColor)
         paint.style = Paint.Style.STROKE
         canvas?.drawCircle(width / 2f, height / 2f, height / 2f, paint)
-        if(hasInitials){
 
-            drawInitials("OK", canvas)
-        }
+
+        drawInitials("OK", canvas)
+
 
     }
 
-    private fun getBorderWidth(): Int {
+    fun getBorderWidth(): Int {
         return borderWidth.toInt()
     }
 
-    private fun setBorderWidth(dp: Int) {
+    fun setBorderWidth(dp: Int) {
         borderWidth = dp.toFloat()
     }
 
-    private fun getBorderColor():Int{
+    fun getBorderColor(): Int {
         return borderColor
     }
 
-    private fun setBorderColor(hex:String){
+    fun setBorderColor(hex: String) {
         borderColor = Integer.decode(hex)
     }
 
-    private fun setBorderColor(colorId: Int){
+    fun setBorderColor(colorId: Int) {
         borderColor = colorId
     }
 
-    private fun drawInitials(initials: String, canvas: Canvas?){
+    fun drawInitials(initials: String, canvas: Canvas?) {
         Log.d("M_Activity", "initials $initials")
         paint.style = Paint.Style.FILL
         paint.setColor(R.attr.colorAccent)
         canvas?.drawCircle(width / 2f, height / 2f, height / 2f, paint)
         paint.setColor(Color.WHITE);
-        paint.setTextSize(height/2f);
+        paint.setTextSize(height / 2f);
         paint.setStyle(Paint.Style.FILL);
-       canvas?.drawText(initials, width/6f, height/1.5f, paint);
+        canvas?.drawText(initials, width / 6f, height / 1.5f, paint);
     }
 }
