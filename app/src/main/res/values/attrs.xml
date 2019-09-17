@@ -7,6 +7,12 @@
         <attr name="cv_borderColor" format="color"></attr>
         <attr name="cv_borderWidth" format="dimension"></attr>
     </declare-styleable>
+
+    <declare-styleable name="AvatarImageView">
+        <attr name="aiv_borderColor" format="color"></attr>
+        <attr name="aiv_borderWidth" format="dimension"></attr>
+    </declare-styleable>
+
     <attr name="colorAccentedSurface" format="reference"></attr>
     <attr name="colorDivider" format="reference"></attr>
     <attr name="colorIcon" format="reference"></attr>
