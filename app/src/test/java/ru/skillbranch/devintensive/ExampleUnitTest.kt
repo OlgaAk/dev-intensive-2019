@@ -3,9 +3,8 @@ package ru.skillbranch.devintensive
 import org.junit.Test
 
 import org.junit.Assert.*
-import ru.skillbranch.devintensive.extensions.add
-import ru.skillbranch.devintensive.extensions.format
-import ru.skillbranch.devintensive.models.User
+import ru.skillbranch.devintensive.extensions.*
+import ru.skillbranch.devintensive.models.*
 import java.util.*
 
 /**
@@ -42,9 +41,13 @@ class ExampleUnitTest {
     @Test
     fun test_decomposition(){
         val user = User.makeUser("John Wick")
-        fun getUserInfo() = user
+        val user2 = User.makeUser(null)
+        val user3 = User.makeUser("")
+        val user4 = User.makeUser(" ")
+        val user5 = User.makeUser("John")
         val (id, firstName, lastName) = user
-        println("$id $firstName $lastName")
+        println(user.lastVisit?.format("HH:mm"))
+
     }
 
     @Test
@@ -57,7 +60,97 @@ class ExampleUnitTest {
     @Test
     fun test_date(){
         val user = User.makeUser("Vova Ivanov")
-        val user2 = user.copy(lastVisit = Date().add(2, "day"))
+        val user2 = user.copy(lastVisit = Date().add(2, TimeUnits.MINUTE))
         println(user2.lastVisit?.format() )
+        Date().add(-2, TimeUnits.HOUR).humanizeDiff() //2 часа назад
+        Date().add(-5, TimeUnits.DAY).humanizeDiff() //5 дней назад
+        Date().add(2, TimeUnits.MINUTE).humanizeDiff() //через 2 минуты
+        Date().add(7, TimeUnits.DAY).humanizeDiff() //через 7 дней
+        Date().add(-400, TimeUnits.DAY).humanizeDiff() //более года назад
+        Date().add(400, TimeUnits.DAY).humanizeDiff() //более чем через год
+        Date().add(-1, TimeUnits.SECOND).humanizeDiff()
+        Date().add(1, TimeUnits.SECOND).humanizeDiff()
+        Date().add(-2, TimeUnits.SECOND).humanizeDiff()
+        Date().add(2, TimeUnits.SECOND).humanizeDiff()
+    }
+
+    @Test
+    fun test_data_mapping(){
+        val user = User.makeUser("Donald Duck")
+        val userView = user.toUserView()
+        userView.printMe()
+    }
+
+    @Test
+    fun test_abstract_factory(){
+        val user = User.makeUser("Donald Duck")
+        val textMessage = BaseMessage.makeMessage(user, Chat("0"), payload = "lalalal", type="text")
+        val imgMessage = BaseMessage.makeMessage(user, Chat("0"), payload = "ooooooo", type="image")
+        when(imgMessage){
+            is TextMessage -> println("This is a text message")
+            is ImageMessage -> println("This is an image message")
+        }
+        println(textMessage.formatMessage())
+    }
+
+    @Test
+    fun test_toInitials(){
+        val user = User.makeUser(" ")
+        val user2 = user.copy(lastVisit = Date().add(12, TimeUnits.SECOND))
+        val userview = user2.toUserView()
+        userview.printMe()
+    }
+
+    @Test
+    fun test_builder(){
+        val user = User.Builder().id("a")
+            .firstName("john")
+            .lastName("doe")
+            .avatar("avatar")
+            .rating(1)
+            .respect(2)
+            .lastVisit(Date().add(-10, TimeUnits.MINUTE))
+            .isOnline(false)
+            .build()
+    }
+
+    @Test
+    fun test_plural(){
+        println(TimeUnits.SECOND.plural(311)) //1 секунду
+        println(TimeUnits.MINUTE.plural(4)) //4 минуты
+        println(TimeUnits.HOUR.plural(19)) //19 часов
+        println(TimeUnits.DAY.plural(311)) //222 дня
+    }
+
+    @Test
+    fun test_truncate(){
+        var string = "A  "
+        println(string.truncate(3))
+        println("Bender Bending Rodriguez — дословно «Сгибальщик Сгибающий Родригес»".truncate()) //Bender Bending R...
+        println("Bender Bending Rodriguez — дословно «Сгибальщик Сгибающий Родригес»".truncate(15)) //Bender Bending...
+        println( "A     ".truncate(3)) //A
+    }
+
+    @Test
+    fun test_striphtml(){
+        println("<p class=\"title\">Образовательное &quot; IT-сообщество Skill Branch</p>".stripHtml()) //Образовательное IT-сообщество Skill Branch
+        println("<p>Образовательное       IT-сообщество Skill Branch</p>".stripHtml()) //Образовательное IT-сообщество Skill Branch
+    }
+
+    @Test
+    fun test_validation(){
+        var bender = Bender()
+        var (phrase, color) = bender.listenAnswer("бендер")
+        println("$phrase $color")
+        assertEquals(phrase, "Имя должно начинаться с заглавной буквы\nКак меня зовут?")
+        var (phrase1, color1) = bender.listenAnswer("Bender")
+        println("$phrase1 $color1")
+        assertEquals(phrase1, "Отлично - ты справился\nНазови мою профессию?")
+        var (phrase2, color2) = bender.listenAnswer("сгибальщик")
+        println("$phrase2 $color2")
+        assertEquals(phrase2, "Отлично - ты справился\nИз чего я сделан?")
+        var (phrase3, color3) = bender.listenAnswer("metal1")
+        println("$phrase3 $color3")
+        assertEquals(phrase3, "Материал не должен содержать цифр\nИз чего я сделан?")
     }
 }
