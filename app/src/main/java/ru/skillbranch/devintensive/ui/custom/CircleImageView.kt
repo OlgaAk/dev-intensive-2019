@@ -26,7 +26,7 @@ class CircleImageView @JvmOverloads constructor(
     private var borderColor = DEFAULT_BORDER_COLOR
     private var borderWidth = DEFAULT_BORDER_WIDTH
     private val paint = Paint()
-    private var hasInitials: Boolean = true
+
 
     init {
         if (attrs != null) {
@@ -44,10 +44,6 @@ class CircleImageView @JvmOverloads constructor(
         paint.setColor(borderColor)
         paint.style = Paint.Style.STROKE
         canvas?.drawCircle(width / 2f, height / 2f, height / 2f, paint)
-
-
-        drawInitials("OK", canvas)
-
 
     }
 
@@ -71,14 +67,5 @@ class CircleImageView @JvmOverloads constructor(
         borderColor = colorId
     }
 
-    fun drawInitials(initials: String, canvas: Canvas?) {
-        Log.d("M_Activity", "initials $initials")
-        paint.style = Paint.Style.FILL
-        paint.setColor(R.attr.colorAccent)
-        canvas?.drawCircle(width / 2f, height / 2f, height / 2f, paint)
-        paint.setColor(Color.WHITE);
-        paint.setTextSize(height / 2f);
-        paint.setStyle(Paint.Style.FILL);
-        canvas?.drawText(initials, width / 6f, height / 1.5f, paint);
-    }
+
 }
