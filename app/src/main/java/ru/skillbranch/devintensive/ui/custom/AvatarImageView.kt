@@ -50,4 +50,8 @@ class AvatarImageView @JvmOverloads constructor(
         canvas?.drawText(initials!!, 0f-textsize/2, 0f+height/3, paintText);
     }
 
+    fun setInitials(initials: String) {
+        this.initials = initials // ??
+    }
+
 }
